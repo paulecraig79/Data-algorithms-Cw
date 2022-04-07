@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include "H:\c coursework\play.h"
 
 
 int main(int argc, char **argv)
@@ -9,5 +11,7 @@ int main(int argc, char **argv)
 
     scanf("%d",&input);
     printf("Input = %d", input);
+
+    play();
     return 0;
 }
