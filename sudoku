@@ -1,0 +1,11 @@
+all: main play
+
+main:
+	cl main.c
+	
+play:
+	cl play.c
+	
+clean:
+	del *.exe
+	del *.objs

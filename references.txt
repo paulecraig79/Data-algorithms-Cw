@@ -1,0 +1,1 @@
+switch case: https://www.programiz.com/c-programming/c-switch-case-statement
