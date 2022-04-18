@@ -1,8 +1,87 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void normalsudoku(string level){
-    printf("%s",&level);
+#define Z 16
+
+void print(int game[Z][Z] ){
+    
+    for (int i = 0; i < Z; i++)
+    {
+        for (int j = 0; j < Z; j++)
+        {
+            if (game[i][j] >= 10)
+            {
+                printf("%d ",game[i][j]);
+            }
+            else
+            {
+                printf("%d  ",game[i][j]);
+            }
+            
+
+        }
+        printf("\n");
+        
+    }
+    
+}
+
+void check(int graph[Z][Z], int number){
+
+}
+
+void sudokuGen(){
+    int newBoard = 0;
+    int targetCoverage = 130;
+    int coverage = 0;
+    int board[Z][Z] = { { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                       { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                       { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                       { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                       { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                       { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                       { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                       { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                       { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                       { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                       { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                       { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                       { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                       { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                       { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                       { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } };
+
+
+
+    while (newBoard == 0)
+    {
+        int x = rand() % 16;
+        int y = rand() % 16;
+        int num = rand() % 16;
+
+        if (coverage == targetCoverage)
+        {
+            newBoard = 1;
+        }
+        else
+        {
+            if (board[x][y] != num)
+            {
+                board[x][y] = num;
+                coverage =coverage + 1;
+                
+            }
+            
+           
+            
+        }
+        
+        
+
+
+    }
+    print(board);
+    
 }
 
 
@@ -10,27 +89,27 @@ void normalsudoku(string level){
 
 void normal(){
     int level;
-    printf("[1]Easy [2]Medium [3]Hard");
+    printf("[1]Easy [2]Medium [3]Hard\n");
     scanf("%d",&level);
-    normalsudoku(level);
+    sudokuGen();
     
 
 }
 
 void tChallenge(){
-    printf("[1]Easy [2]Medium [3]Hard");
+    printf("[1]Easy [2]Medium [3]Hard\n");
     
 }
 
 void oneLife(){
-    printf("[1]Easy [2]Medium [3]Hard");
+    printf("[1]Easy [2]Medium [3]Hard\n");
     
 }
 
 
 void play(){
     int playinput;
-    printf("[1]Normal [2]Time Challenge [3]One Life");
+    printf("[1]Normal [2]Time Challenge [3]One Life\n");
     scanf("%d",&playinput);
     
     switch(playinput){
@@ -47,7 +126,7 @@ void play(){
             break;
 
         default:
-            printf("Error! Incorrect input!");
+            printf("Error! Incorrect input!\n");
     }
     
 }
@@ -85,7 +164,7 @@ int main(int argc, char **argv)
             break;
 
         default:
-            printf("Error! Incorrect input!");
+            printf("Error! Incorrect input!\n");
     }
     
     
