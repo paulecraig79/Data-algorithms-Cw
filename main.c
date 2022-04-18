@@ -26,8 +26,31 @@ void print(int game[Z][Z] ){
     
 }
 
-void check(int graph[Z][Z], int number){
+int check(int graph[Z][Z], int number, int x, int y)
+{
 
+    for (int i = 0; i < 15; i++)
+    {
+        if (graph[x][i] == number)
+        {
+            return 0;
+        }
+        
+    }
+
+    for (int j = 0; j < 15; j++)
+    {
+        if (graph[j][y] == number)
+        {
+            return 0;
+        }
+        
+    }
+
+    return 1;
+    
+    
+    
 }
 
 void sudokuGen(){
@@ -67,8 +90,13 @@ void sudokuGen(){
         {
             if (board[x][y] != num)
             {
-                board[x][y] = num;
-                coverage =coverage + 1;
+                if (check(board, num, x, y) == 1 )
+                {
+                    board[x][y] = num;
+                    coverage =coverage + 1;
+                }
+                
+                
                 
             }
             
