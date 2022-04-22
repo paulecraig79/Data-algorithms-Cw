@@ -1,1 +1,2 @@
 switch case: https://www.programiz.com/c-programming/c-switch-case-statement
+https://www.geeksforgeeks.org/rand-and-srand-in-ccpp/

@@ -1,0 +1,4 @@
+Random generation of sudoku:
+
+To cover large portion on easy = 135 numbers generated
+have while loop until state is true for 135 numbers generated

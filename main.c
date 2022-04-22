@@ -1,22 +1,60 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
+
 
 #define Z 16
 
 void print(int game[Z][Z] ){
-    
+
+    char line[20];
     for (int i = 0; i < Z; i++)
     {
+
+
+        
+        
+        
+        
+
+        if (i == 4 || i ==8 || i == 12)
+        {
+            printf(" -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  - \n");
+            printf("|");
+        }
+        else{
+            printf("|");
+        }
+        
+
+        
+
         for (int j = 0; j < Z; j++)
         {
             if (game[i][j] >= 10)
             {
                 printf("%d ",game[i][j]);
+                
+                
+                if (j ==3 || j ==7 || j == 11 || j == 15)
+                {
+                    printf("|");
+                }
+                
+                
+                
             }
             else
             {
                 printf("%d  ",game[i][j]);
+                if (j == 3 || j == 7 || j == 11 || j == 15)
+                {
+                    printf("|");
+                 
+                }
+                
             }
+            
             
 
         }
@@ -38,14 +76,29 @@ int check(int graph[Z][Z], int number, int x, int y)
         
     }
 
-    for (int j = 0; j < 15; j++)
+    for (int i = 0; i < 15; i++)
     {
-        if (graph[j][y] == number)
+        if (graph[i][y] == number)
         {
             return 0;
         }
         
     }
+
+    int startx = x- x %4, starty = y - y %4;
+    for (int j = 0; j < 4; j++)
+    {
+        for (int k = 0; k < 4; k++)
+        {
+            if (graph[j + startx][k + starty] == number)
+            {
+                return 0;
+            }
+            
+        }
+        
+    }
+    
 
     return 1;
     
@@ -53,11 +106,29 @@ int check(int graph[Z][Z], int number, int x, int y)
     
 }
 
-void sudokuGen(){
+void sudokuGen(int level){
     int newBoard = 0;
-    int targetCoverage = 130;
+    int targetCoverage;
+    switch (level)
+    {
+    case 1:
+        targetCoverage = 0;
+        break;
+    
+    case 2:
+        targetCoverage = 100;
+        break;
+
+    case 3:
+        targetCoverage = 130;
+        break;
+
+    default:
+        printf("Error! Try Again!");
+    }
+    
     int coverage = 0;
-    int board[Z][Z] = { { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+    int board[Z][Z] = {{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -72,7 +143,7 @@ void sudokuGen(){
                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                       { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } };
+                       { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }};
 
 
 
@@ -109,6 +180,30 @@ void sudokuGen(){
 
     }
     print(board);
+    int finish =0;
+    int xcoord;
+    int ycoord;
+    int num;
+    while (finish == 0)
+    {
+        xcoord = 0;
+        ycoord = 0;
+        num = 0;
+        printf("X coords? ");
+        scanf("%d\n", &xcoord);
+
+        printf("y coords? ");
+        scanf("%d\n", &ycoord);
+
+        printf("what number would you like to input? ");
+        scanf("%d\n", &num);
+
+        board[xcoord][ycoord] = num;
+
+        print(board);
+
+    }
+    
     
 }
 
@@ -119,7 +214,8 @@ void normal(){
     int level;
     printf("[1]Easy [2]Medium [3]Hard\n");
     scanf("%d",&level);
-    sudokuGen();
+    
+    sudokuGen(level);
     
 
 }
@@ -166,6 +262,8 @@ void play(){
 
 int main(int argc, char **argv)
 {
+    srand(time(0));
+
     int input;
     printf("16 x 16 Sudoku game\n");
     printf("[1]Start [2]Leaderboard [3]Settings [4]Exit\n");
