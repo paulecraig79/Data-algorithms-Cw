@@ -3,6 +3,8 @@
 #include <time.h>
 #include "print.h"
 #include "sudoku.h"
+#include "sudokuEz.h"
+#include "sudokuMid.h"
 #include "UI.h"
 
 #define Z 16
@@ -12,7 +14,7 @@ int main(int argc, char **argv)
     srand(time(0));
 
     int input;
-    printf("16 x 16 Sudoku game\n");
+    printf("xSudoku game\n");
     printf("[1]Start [2]Leaderboard [3]Settings [4]Exit\n");
 
     scanf("%d",&input);

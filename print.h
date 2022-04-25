@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #define Z 16
+#define Y 4
+#define L 9
 
 void print(int game[Z][Z] ){
 
@@ -60,5 +62,97 @@ void print(int game[Z][Z] ){
         printf("\n");
         
     }
+    
+}
+
+void printEz(int game[Y][Y])
+{
+    char line[20];
+    printf("  0 1  2 3 -- x\n");
+    for (int i = 0; i < Y; i++)
+    {
+
+
+        
+        
+        
+        
+        if (i == 2 )
+        {
+            printf("  - -  - -   \n");
+            printf("%d", i);
+            printf("|");
+        }
+        else{
+            printf("%d", i);
+            printf("|");
+        }
+        
+        
+
+        for (int j = 0; j < Y; j++)
+        {
+                printf("%d ",game[i][j]);
+                
+                if (j ==1)
+                {
+                    printf("|");
+                }
+            
+
+        }
+        printf("|");
+        printf("\n");
+        
+    }
+    printf("  - -  - - \n");
+    
+}
+
+void printMid(int game[L][L])
+{
+    char line[20];
+    printf("  0 1 2  3 4 5  6 7 8 -- x\n");
+    for (int i = 0; i < L; i++)
+    {
+         
+
+        
+        
+        
+        
+
+        if (i == 3 || i ==6 )
+        {
+            printf("  -  -  -  -  -  -  -  \n");
+            printf("%d", i);
+            printf("|");
+        }
+        else{
+            printf("%d", i);
+            printf("|");
+        }
+        
+
+        
+       
+        for (int j = 0; j < L; j++)
+        {
+               
+                printf("%d ",game[i][j]);
+                
+                
+                if (j ==2 || j ==5 || j == 8)
+                {
+                    printf("|");
+                }
+                
+            
+
+        }
+        printf("\n");
+        
+    }
+    
     
 }

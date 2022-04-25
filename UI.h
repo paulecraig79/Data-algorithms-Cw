@@ -11,8 +11,23 @@ void normal(){
     int level;
     printf("[1]Easy [2]Medium [3]Hard\n");
     scanf("%d",&level);
+    switch (level)
+    {
+    case 1:
+        sudokuGenEz(0);
+        break;
     
-    sudokuGen(level,0);
+    case 2:
+        sudokuGenMid(0);
+        break;
+
+    case 3:
+        sudokuGen(0);
+        break;
+    default:
+        break;
+    }
+    
     
 
 }
@@ -22,7 +37,7 @@ void tChallenge(){
     printf("[1]Easy [2]Medium [3]Hard\n");
     scanf("%d",&level);
     
-    sudokuGen(level,0);
+    sudokuGen(0);
 }
 
 void oneLife(){
@@ -30,7 +45,7 @@ void oneLife(){
     printf("[1]Easy [2]Medium [3]Hard\n");
     scanf("%d",&level);
     
-    sudokuGen(level,1);
+    sudokuGen(1);
 }
 
 

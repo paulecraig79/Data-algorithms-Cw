@@ -122,26 +122,11 @@ int solver(int grid[Z][Z], int y, int x){
 
 
 
-void sudokuGen(int level ,int mode){
+void sudokuGen(int mode){
     int newBoard = 0;
-    int targetCoverage;
-    switch (level)
-    {
-    case 1:
-        targetCoverage = 250;
-        break;
+    int targetCoverage = 150;
+
     
-    case 2:
-        targetCoverage = 100;
-        break;
-
-    case 3:
-        targetCoverage = 30;
-        break;
-
-    default:
-        printf("Error! Try Again!");
-    }
     
     int coverage = 0;
     int board[Z][Z] = {{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -166,41 +151,18 @@ void sudokuGen(int level ,int mode){
     while (newBoard == 0)
     {
         
-        int x = rand() % 16;
-        int y = rand() % 16;
-        int num = rand() % 16;
+        int x = rand() % 17;
+        int y = rand() % 17;
+        int num = rand() % 17;
 
         if (coverage == targetCoverage)
         {
 
-            if (solver(board, 0, 0) == 1)
-            {
-                 newBoard = 1;
-            }
-            else
-            {
-                    int board[Z][Z] = {{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                       { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                       { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                       { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                       { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                       { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                       { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                       { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                       { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                       { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                       { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                       { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                       { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                       { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                       { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                       { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }};
-                    srand(time(0));
-                    
-            }
+
+            
             
            
-
+            newBoard = 1;
             
         }
         else
