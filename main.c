@@ -12,10 +12,11 @@
 int main(int argc, char **argv)
 {
     srand(time(0));
+  
 
     int input;
     printf("Sudoku game by 40482827\n");
-    printf("[1]Start [2]Leaderboard [3]Settings [4]Exit\n");
+    printf("[1]Start [2]Leaderboard [3]Exit\n");
 
     scanf("%d",&input);
 
@@ -30,10 +31,6 @@ int main(int argc, char **argv)
             break;
         
         case 3:
-            printf("Settings");
-            break;
-        
-        case 4:
             printf("Exit");
             
             break;

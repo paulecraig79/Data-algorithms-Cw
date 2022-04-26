@@ -212,7 +212,7 @@ int checkWinMid(int grid[L][L])
 
 void sudokuGenMid(int mode){
     int newBoard = 0;
-    int targetCoverage = 30;
+    int targetCoverage = 50;
 
     int counter;
     int coverage = 0;
@@ -261,7 +261,7 @@ void sudokuGenMid(int mode){
             else
             {
 
-
+                printMid(table);
                 clearTableMid(table);
                 clearTableMid(correctTable);
                 coverage = 0;
@@ -323,6 +323,11 @@ void sudokuGenMid(int mode){
 
         printf("Enter the number: ");
         scanf("%d", &num);
+
+
+ 
+
+
 
 
         

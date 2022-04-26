@@ -195,7 +195,7 @@ int checkWin(int grid[Z][Z])
 
 void sudokuGen(int mode){
     int newBoard = 0;
-    int targetCoverage = 19;
+    int targetCoverage = 10;
     int counter;
     
     
@@ -251,11 +251,12 @@ void sudokuGen(int mode){
 
             if (solver(correctTable) == 1)
             {
-                print(correctTable);
+                
                 newBoard = 1;
             }
             else
             {
+                
                 clearTable(table);
                 clearTable(correctTable);
                 coverage = 0;

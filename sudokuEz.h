@@ -10,6 +10,14 @@
 
 #define Y 4
 
+struct moves
+{
+    int y;
+    int x;
+    int num;
+};
+
+
 void copyTableEz(int graph1[Y][Y], int graph2[Y][Y])
 {
     int num;
@@ -278,55 +286,110 @@ void sudokuGenEz(int mode){
     int num;
     int score = 100;
     int flag;
+    int inp;
     int correctAnswer;
+    int moveNumber;
+    struct moves move[10];
     while (finish == 0)
     {
         xcoord = 0;
         ycoord = 0;
         num = 0;
+        flag = 0;
+        inp = 0;
+        
 
+        printf("[1]Enter number into table [2]Undo");
+        scanf("%d", &flag);
 
-        printf("Enter the X coordinate: ");
-        scanf("%d", &xcoord);
-        printf("\n");
-
-        printf("Enter the Y coordinate: ");
-        scanf("%d", &ycoord);
-
-        printf("Enter the number: ");
-        scanf("%d", &num);
-
-
-        correctAnswer = correctTable[ycoord][xcoord];
-
-
-
-        if (checkEz(table, num, ycoord, xcoord) == 1 && correctAnswer == num )
+        switch (flag)
         {
-         
-            table[ycoord][xcoord] = num;
-        }
+        case 1:
+            printf("Enter the X coordinate: ");
+            scanf("%d", &xcoord);
 
-        else{
-            printf("wrong\n");
-            score = score - 15;
-            if (mode == 1)
+            printf("Enter the Y coordinate: ");
+            scanf("%d", &ycoord);
+
+            printf("Enter the number: ");
+            scanf("%d", &num);
+
+            correctAnswer = correctTable[ycoord][xcoord];
+            inp = 1;
+            break;
+        
+        case 2:
+            if (moveNumber == 0)
             {
-                finish = 1;
-                printf("Game Over!");
-                break;
+                printf("Nothing to undo to.");
             }
             
+            printf("undo");
+            break;
+
+
+        default:
+            printf("Error");
+        }
+
+
+
+
+
+       
+
+
+
+        
+        if(inp == 1)
+        {
+
+
+            if (checkEz(table, num, ycoord, xcoord) == 1 && correctAnswer == num )
+            {
+            
+                table[ycoord][xcoord] = num;
+                move[moveNumber].x = xcoord;
+                move[moveNumber].y = ycoord;
+                move[moveNumber].num = num;
+
+                if (checkWinEz(table) == 1)
+                {
+                    printf("Win  Score: %d \n", score);
+                    printf("History of play: \n");
+
+                    for (int i = 0; i <= moveNumber; i++)
+                    {
+                        printf("%d   (%d,%d) %d \n", i, move[i].x, move[i].y, move[i].num);
+                    }
+                
+
+
+                break;
+            }
+
+                moveNumber = moveNumber + 1;
+    
+
+            
+            }
+
+            else
+            {
+                printf("wrong\n");
+                score = score - 15;
+                if (mode == 1)
+                {
+                    finish = 1;
+                    printf("Game Over!");
+                    break;
+                }
+                
+            }
         }
         printEz(table);
 
-        if (checkWinEz(table) == 1)
-        {
-            printf("Win  Score: %d", score);
-            
-            break;
-        }
-        
+
 
     }
     
