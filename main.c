@@ -14,7 +14,7 @@ int main(int argc, char **argv)
     srand(time(0));
 
     int input;
-    printf("xSudoku game\n");
+    printf("Sudoku game by 40482827\n");
     printf("[1]Start [2]Leaderboard [3]Settings [4]Exit\n");
 
     scanf("%d",&input);

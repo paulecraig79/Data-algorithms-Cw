@@ -62,6 +62,7 @@ void print(int game[Z][Z] ){
         printf("\n");
         
     }
+    printf(" -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  - \n");
     
 }
 

@@ -11,8 +11,67 @@
 
 #define L 9
 
+
+void copyTableMid(int graph1[L][L], int graph2[L][L])
+{
+    int num;
+    for (int i = 0; i < L; i++)
+    {
+        for (int j = 0; j < L; j++)
+        {
+            num = graph1[i][j];
+            graph2[i][j] = num;
+        }
+        
+    }
+}
+
+
+void clearTableMid(int graph[L][L])
+{
+    for (int i = 0; i < L; i++)
+    {
+        for (int j = 0; j < L; j++)
+        {
+            graph[i][j] = 0;
+        }
+        
+    }
+    
+}
+
+
+
+int findEmptyMid(int graph[L][L], int *y, int *x)
+{
+    for (int i = 0; i < L; i++)
+    {
+        for (int j = 0; j < L; j++)
+        {
+            if (graph[i][j] == 0)
+            {
+
+                *y = i;
+                *x = j;
+
+
+                return 1;
+            }
+            
+        }
+        
+    }
+
+    return 0;
+    
+}
+
+
+
 int checkMid(int graph[L][L], int number, int y, int x)
 {
+
+
 
     if (graph[y][x] != 0)
     {
@@ -72,44 +131,33 @@ int checkMid(int graph[L][L], int number, int y, int x)
 
 
 
-int solverMid(int grid[L][L], int y, int x){
-
-    if (y== L-1 && x ==L)
+int solverMid(int graph[L][L])
+{
+    int x, y;
+  
+    if (findEmptyMid(graph, &y, &x) == 0)
     {
         return 1;
     }
 
-    if (x == L)
+    for (int i = 0; i <= 9; i++)
     {
-        y++;
-        x = 0;
-    }
-    
-    if (grid[y][x] > 0)
-    {
-        return solverMid(grid, y, x + 1);
-    }
-
-    for (int i = 0; i <= L; i++)
-    {
-        if (checkMid(grid, y, x, i) == 1 )
+        if (checkMid(graph, i, y, x))
         {
-            grid[y][x] = i;
+            graph[y][x] = i;
 
-            if (solverMid(grid, y, x+1) == 1)
+            if (solverMid(graph))
             {
                 return 1;
             }
+
+            graph[y][x] = 0;
             
         }
-
-        grid[y][x] =0;
         
     }
     
     return 0;
-    
-
 }
 
 
@@ -164,9 +212,9 @@ int checkWinMid(int grid[L][L])
 
 void sudokuGenMid(int mode){
     int newBoard = 0;
-    int targetCoverage = 40;
+    int targetCoverage = 30;
 
-    
+    int counter;
     int coverage = 0;
     int table[L][L] = {{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
                        { 0, 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -176,13 +224,24 @@ void sudokuGenMid(int mode){
                        { 0, 0, 0, 0, 0, 0, 0, 0, 0 },
                        { 0, 0, 0, 0, 0, 0, 0, 0, 0 },
                        { 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                       { 0, 0, 0, 0, 0, 0, 0, 0, 0 }};
+                       { 0, 0, 0, 0, 0, 0, 0, 0, 0 } };
+
+    int correctTable[L][L] = {{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                       { 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                       { 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                       { 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                       { 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                       { 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                       { 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                       { 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                       { 0, 0, 0, 0, 0, 0, 0, 0, 0 } };
 
 
 
     while (newBoard == 0)
     {
-        
+        counter = counter + 1;
+        srand(counter);
         int x = rand() % 10;
         int y = rand() % 10;
         int num = rand() % 10;
@@ -191,41 +250,63 @@ void sudokuGenMid(int mode){
         {
 
 
+            copyTableMid(table, correctTable);
             
-            
-           
-            newBoard = 1;
-            
-        }
-        else
-        {
-            if (table[y][x] != num)
+           if (solverMid(correctTable) == 1)
+           {
+               printMid(correctTable);
+               newBoard = 1;
+           }
+
+            else
             {
-                if (checkMid(table, num, y, x) == 1 )
-                {
-                    table[y][x] = num;
-                    coverage =coverage + 1;
-                }
-                
-                
-                
+
+
+                clearTableMid(table);
+                clearTableMid(correctTable);
+                coverage = 0;
+
             }
             
            
+           
+             
             
-        }
+         }
+         else
+         {
+             if (table[y][x] != num)
+             {
+                 if (checkMid(table, num, y, x) == 1 )
+                 {
+                     table[y][x] = num;
+                     coverage =coverage + 1;
+                 }
+                
+                
+                
+             }
+            
+           
+            
+         }
         
         
 
 
     }
     printMid(table);
+
+
+    
+    
     int finish =0;
     int xcoord;
     int ycoord;
     int num;
     int score = 100;
     int flag;
+    int correctAnswer;
     while (finish == 0)
     {
         xcoord = 0;
@@ -245,10 +326,11 @@ void sudokuGenMid(int mode){
 
 
         
+        
+        correctAnswer = correctTable[ycoord][xcoord];
 
 
-
-        if (checkMid(table, num, ycoord, xcoord) == 1 )
+        if (checkMid(table, num, ycoord, xcoord) == 1 && correctAnswer == num)
         {
          
             table[ycoord][xcoord] = num;

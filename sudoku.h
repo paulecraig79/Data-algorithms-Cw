@@ -8,6 +8,59 @@
 
 #define Z 16
 
+
+void copyTable(int graph1[Z][Z], int graph2[Z][Z])
+{
+    int num;
+    for (int i = 0; i < Z; i++)
+    {
+        for (int j = 0; j < Z; j++)
+        {
+            num = graph1[i][j];
+            graph2[i][j] = num;
+        }
+        
+    }
+}
+
+
+void clearTable(int graph[Z][Z])
+{
+    for (int i = 0; i < Z; i++)
+    {
+        for (int j = 0; j < Z; j++)
+        {
+            graph[i][j] = 0;
+        }
+        
+    }
+    
+}
+
+int findEmpty(int graph[Z][Z], int *y, int *x)
+{
+    for (int i = 0; i < Z; i++)
+    {
+        for (int j = 0; j < Z; j++)
+        {
+            if (graph[i][j] == 0)
+            {
+
+                *y = i;
+                *x = j;
+
+
+                return 1;
+            }
+            
+        }
+        
+    }
+
+    return 0;
+    
+}
+
 int check(int graph[Z][Z], int number, int y, int x)
 {
 
@@ -69,47 +122,65 @@ int check(int graph[Z][Z], int number, int y, int x)
 
 
 
-int solver(int grid[Z][Z], int y, int x){
-
-    if (y== Z-1 && x ==Z)
+int solver(int graph[Z][Z])
+{
+    int x, y;
+  
+    if (findEmpty(graph, &y, &x) == 0)
     {
         return 1;
     }
 
-    if (x == Z)
+    for (int i = 0; i <= 16; i++)
     {
-        y++;
-        x = 0;
-    }
-    
-    if (grid[y][x] > 0)
-    {
-        return solver(grid, y, x + 1);
-    }
-
-    for (int i = 0; i <= Z; i++)
-    {
-        if (check(grid, y, x, i) == 1 )
+        if (check(graph, i, y, x))
         {
-            grid[y][x] = i;
+            graph[y][x] = i;
 
-            if (solver(grid, y, x+1) == 1)
+            if (solver(graph))
             {
                 return 1;
             }
+
+            graph[y][x] = 0;
             
         }
-
-        grid[y][x] =0;
         
     }
     
     return 0;
-    
-
 }
 
+int checkWin(int grid[Z][Z])
+{
+    
+    for (int i = 0; i < Z; i++)
+    {
 
+
+
+        
+
+        for (int j = 0; j < Z; j++)
+        {
+
+            if (grid[i][j] == 0)
+            {
+                return 0;
+            }
+            
+                
+                
+
+                
+            
+
+        }
+        
+        
+    }
+    return 1;
+}
 
 
 
@@ -124,12 +195,29 @@ int solver(int grid[Z][Z], int y, int x){
 
 void sudokuGen(int mode){
     int newBoard = 0;
-    int targetCoverage = 150;
-
+    int targetCoverage = 19;
+    int counter;
     
     
     int coverage = 0;
-    int board[Z][Z] = {{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+    int table[Z][Z] = {{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                       { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                       { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                       { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                       { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                       { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                       { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                       { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                       { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                       { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                       { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                       { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                       { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                       { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                       { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                       { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }};
+
+    int correctTable[Z][Z] = {{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -147,10 +235,10 @@ void sudokuGen(int mode){
                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }};
 
 
-
     while (newBoard == 0)
     {
-        
+        counter = counter + 1;
+        srand(counter);
         int x = rand() % 17;
         int y = rand() % 17;
         int num = rand() % 17;
@@ -159,19 +247,32 @@ void sudokuGen(int mode){
         {
 
 
+            copyTable(table, correctTable);
+
+            if (solver(correctTable) == 1)
+            {
+                print(correctTable);
+                newBoard = 1;
+            }
+            else
+            {
+                clearTable(table);
+                clearTable(correctTable);
+                coverage = 0;
+            }
             
             
            
-            newBoard = 1;
+         
             
         }
         else
         {
-            if (board[y][x] != num)
+            if (table[y][x] != num)
             {
-                if (check(board, num, y, x) == 1 )
+                if (check(table, num, y, x) == 1 )
                 {
-                    board[y][x] = num;
+                    table[y][x] = num;
                     coverage =coverage + 1;
                 }
                 
@@ -187,13 +288,14 @@ void sudokuGen(int mode){
 
 
     }
-    print(board);
+    print(table);
     int finish =0;
     int xcoord;
     int ycoord;
     int num;
     int score = 100;
     int flag;
+    int correctAnswer;
     while (finish == 0)
     {
         xcoord = 0;
@@ -203,7 +305,6 @@ void sudokuGen(int mode){
 
         printf("Enter the X coordinate: ");
         scanf("%d", &xcoord);
-        printf("\n");
 
         printf("Enter the Y coordinate: ");
         scanf("%d", &ycoord);
@@ -211,38 +312,27 @@ void sudokuGen(int mode){
         printf("Enter the number: ");
         scanf("%d", &num);
 
+        correctAnswer = correctTable[ycoord][xcoord];
 
-        if(xcoord == 34 || ycoord == 34 || num == 34){
-            printf("[redacted] developer commands:\n");
-            printf("[1] solve sudoku ");
-            scanf("%d", &flag);
-            switch (flag)
-            {
-            case 1:
-                if (solver(board, 0, 0) == 1)
-                {
-                    print(board);
-                    finish = 1;
-                    
-                }
-                else{
-                    printf("no");
-                }
-                
-                break;
-            
-            default:
-                printf("error");
-            }
+        if (xcoord == 34 && ycoord == 34 && num == 34)
+        {
+            solver(table);
+            print(table);
 
-            break;
         }
 
-
-
-        if (check(board, num, ycoord, xcoord) == 1 )
+        if (checkWin(table) == 1)
         {
-            board[ycoord][xcoord] = num;
+            printf("Win  Score: %d", score);
+            break;
+        }
+        
+
+
+
+        if (check(table, num, ycoord, xcoord) == 1 && correctAnswer == num)
+        {
+            table[ycoord][xcoord] = num;
         }
 
         else{
@@ -256,7 +346,12 @@ void sudokuGen(int mode){
             }
             
         }
-        print(board);
+        print(table);
+        if (checkWin(table) == 1)
+        {
+            printf("Win  Score: %d", score);
+            break;
+        }
 
     }
     
