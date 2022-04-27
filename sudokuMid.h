@@ -11,6 +11,13 @@
 
 #define L 9
 
+struct midMoves
+{
+    int y;
+    int x;
+    int num;
+};
+
 
 void copyTableMid(int graph1[L][L], int graph2[L][L])
 {
@@ -84,7 +91,7 @@ int checkMid(int graph[L][L], int number, int y, int x)
     }
     
 
-    for (int i = 0; i < 8; i++)
+    for (int i = 0; i <= 8; i++)
     {
         if (graph[y][i] == number)
         {
@@ -93,7 +100,7 @@ int checkMid(int graph[L][L], int number, int y, int x)
         
     }
 
-    for (int i = 0; i < 8; i++)
+    for (int i = 0; i <= 8; i++)
     {
         if (graph[i][x] == number)
         {
@@ -212,7 +219,7 @@ int checkWinMid(int grid[L][L])
 
 void sudokuGenMid(int mode){
     int newBoard = 0;
-    int targetCoverage = 50;
+    int targetCoverage = 35;
 
     int counter;
     int coverage = 0;
@@ -254,14 +261,13 @@ void sudokuGenMid(int mode){
             
            if (solverMid(correctTable) == 1)
            {
-               printMid(correctTable);
+               
                newBoard = 1;
            }
 
             else
             {
 
-                printMid(table);
                 clearTableMid(table);
                 clearTableMid(correctTable);
                 coverage = 0;
@@ -295,7 +301,7 @@ void sudokuGenMid(int mode){
 
 
     }
-    printMid(table);
+   
 
 
     
@@ -305,24 +311,76 @@ void sudokuGenMid(int mode){
     int ycoord;
     int num;
     int score = 100;
+    int moveNumber;
+    int any;
+    int inp;
     int flag;
+    struct midMoves move[45];
     int correctAnswer;
     while (finish == 0)
     {
+        system("clear");
+        printMid(table);
         xcoord = 0;
         ycoord = 0;
         num = 0;
+        flag = 0;
+        inp = 0;
 
 
-        printf("Enter the X coordinate: ");
-        scanf("%d", &xcoord);
-        printf("\n");
+        printf("[1]Enter number into table [2]Undo [3]Redo \n");
+        scanf("%d", &flag);
 
-        printf("Enter the Y coordinate: ");
-        scanf("%d", &ycoord);
+        switch (flag)
+        {
+        case 1:
+            printf("Enter the X coordinate: ");
+            scanf("%d", &xcoord);
 
-        printf("Enter the number: ");
-        scanf("%d", &num);
+            printf("Enter the Y coordinate: ");
+            scanf("%d", &ycoord);
+
+            printf("Enter the number: ");
+            scanf("%d", &num);
+
+            correctAnswer = correctTable[ycoord][xcoord];
+            inp = 1;
+            break;
+        
+        case 2:
+            if (moveNumber == 0)
+            {
+                printf("Nothing to undo to. \n");
+            }
+            
+            else{
+                moveNumber = moveNumber - 1;
+                xcoord = move[moveNumber].x;
+                ycoord = move[moveNumber].y;
+
+                table[ycoord][xcoord] = 0;
+            }
+            break;
+
+        case 3:
+            printf("x[0]: %d\n",move[0].x);
+            printf("x[1]: %d\n",move[1].x);
+            printf("x[2]: %d\n",move[2].x);
+
+            moveNumber = moveNumber + 1;
+            xcoord = move[moveNumber].x;
+            ycoord = move[moveNumber].y;
+            num = move[moveNumber].num;
+
+
+            
+            
+            break;
+            
+
+        default:
+            printf("Error\n");
+        }
 
 
  
@@ -335,32 +393,69 @@ void sudokuGenMid(int mode){
         correctAnswer = correctTable[ycoord][xcoord];
 
 
-        if (checkMid(table, num, ycoord, xcoord) == 1 && correctAnswer == num)
+        if(inp == 1)
         {
-         
-            table[ycoord][xcoord] = num;
-        }
-
-        else{
-            printf("wrong\n");
-            score = score - 1;
-            if (mode == 1)
+            if (checkMid(table, num, ycoord, xcoord) == 1 && correctAnswer == num )
             {
-                finish = 1;
-                printf("Game Over!");
-                break;
-            }
             
-        }
-        printMid(table);
+                table[ycoord][xcoord] = num;
+                move[moveNumber].x = xcoord;
+                move[moveNumber].y = ycoord;
+                move[moveNumber].num = num;
 
-        if (checkWinMid(table) == 1)
-        {
-            printf("Win  Score: %d", score);
-            break;
-        }
+                if (checkWinMid(table) == 1)
+                {
+                    printf("Win  Score: %d \n", score);
+                    printf("History of play: \n");
+
+                    for (int i = 0; i <= moveNumber; i++)
+                    {
+
+                       
+                        printf("%d   (%d,%d) %d \n", i, move[i].x, move[i].y, move[i].num);
+
+
+                    }
+                    printf("[1]Menu [2]Exit\n");
+
+                    scanf("%d", &any);
+                    if (any == 1)
+                    {
+                        system("clear");
+                        Menu();
+                    }
+
+                    else
+                    {
+                        break;
+                    }
+                
+
+
+
+                
+                }
+
+                moveNumber = moveNumber + 1;
+    
+
+            
+            }
+
+            else{
+                printf("wrong\n");
+                score = score - 1;
+                if (mode == 1)
+                {
+                    finish = 1;
+                    printf("Game Over!");
+                    break;
+                }
+                
+            }
+
         
-
+        }
     }
     
     

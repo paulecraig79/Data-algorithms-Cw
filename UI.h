@@ -6,6 +6,46 @@
 
 #define Z 16
 
+void play();
+
+
+
+void Menu()
+{
+    int input;
+    printf("Sudoku game by 40482827\n");
+    printf("[1]Start [2]Leaderboard [3]History Of Play [4]Exit\n");
+
+    scanf("%d",&input);
+
+
+    switch(input)
+    {
+        case 1:
+            play();
+            break;
+        
+        case 2:
+            printf("Leaderboard");
+            break;
+        
+        case 3:
+
+            
+            break;
+
+        case 4:
+            printf("Exit");
+            
+            break;
+
+       
+
+        default:
+            printf("Error! Incorrect input!\n");
+    }
+}
+
 
 void normal(){
     int level;
@@ -25,7 +65,7 @@ void normal(){
         sudokuGen(0);
         break;
     default:
-        break;
+        printf("Error");
     }
     
     
@@ -72,3 +112,4 @@ void play(){
     }
     
 }
+

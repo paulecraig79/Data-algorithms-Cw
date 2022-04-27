@@ -8,6 +8,12 @@
 
 #define Z 16
 
+struct moves
+{
+    int y;
+    int x;
+    int num;
+};
 
 void copyTable(int graph1[Z][Z], int graph2[Z][Z])
 {
@@ -75,7 +81,7 @@ int check(int graph[Z][Z], int number, int y, int x)
     }
     
 
-    for (int i = 0; i < 15; i++)
+    for (int i = 0; i <= 15; i++)
     {
         if (graph[y][i] == number)
         {
@@ -84,7 +90,7 @@ int check(int graph[Z][Z], int number, int y, int x)
         
     }
 
-    for (int i = 0; i < 15; i++)
+    for (int i = 0; i <= 15; i++)
     {
         if (graph[i][x] == number)
         {
@@ -195,8 +201,9 @@ int checkWin(int grid[Z][Z])
 
 void sudokuGen(int mode){
     int newBoard = 0;
-    int targetCoverage = 10;
-    int counter;
+    int var = 20;
+    int targetCoverage = 15;
+    
     
     
     int coverage = 0;
@@ -237,6 +244,7 @@ void sudokuGen(int mode){
 
     while (newBoard == 0)
     {
+        int counter = rand();
         counter = counter + 1;
         srand(counter);
         int x = rand() % 17;
@@ -289,69 +297,176 @@ void sudokuGen(int mode){
 
 
     }
-    print(table);
-    int finish =0;
-    int xcoord;
-    int ycoord;
-    int num;
-    int score = 100;
-    int flag;
-    int correctAnswer;
-    while (finish == 0)
+    int completeTBL = 0;
+    copyTable(correctTable, table);
+    
+    for (int i = 0; i <= var; i++)
     {
-        xcoord = 0;
-        ycoord = 0;
-        num = 0;
-  
+        int completeTBL = 0;
 
-        printf("Enter the X coordinate: ");
-        scanf("%d", &xcoord);
-
-        printf("Enter the Y coordinate: ");
-        scanf("%d", &ycoord);
-
-        printf("Enter the number: ");
-        scanf("%d", &num);
-
-        correctAnswer = correctTable[ycoord][xcoord];
-
-        if (xcoord == 34 && ycoord == 34 && num == 34)
+        while (completeTBL == 0)
         {
-            solver(table);
-            print(table);
+            int row = rand() % 15;
+            int col = rand() % 15;
+            if (table[row][col] != 0)
+            {
 
-        }
-
-        if (checkWin(table) == 1)
-        {
-            printf("Win  Score: %d", score);
-            break;
+                table[row][col] = 0;
+                completeTBL = 1;
+            }
+            
         }
         
 
 
+    }
+    
+    
 
-        if (check(table, num, ycoord, xcoord) == 1 && correctAnswer == num)
+
+
+
+
+
+
+
+    print(table);
+    int finish =0;
+    int xcoord;
+    int ycoord;
+    int any;
+    int num;
+    int score = 100;
+    int flag;
+    int inp;
+    int correctAnswer;
+    int moveNumber = 0;
+    
+    struct moves move[var];
+    
+    while (finish == 0)
+    {
+        system("clear");
+        print(table);
+        xcoord = 0;
+        ycoord = 0;
+        num = 0;
+        flag = 0;
+        inp = 0;
+  
+        printf("[1]Enter number into table [2]Undo [3]Redo \n");
+        scanf("%d", &flag);
+
+        switch (flag)
         {
-            table[ycoord][xcoord] = num;
-        }
+        case 1:
+            printf("Enter the X coordinate: ");
+            scanf("%d", &xcoord);
 
-        else{
-            printf("wrong\n");
-            score = score - 1;
-            if (mode == 1)
+            printf("Enter the Y coordinate: ");
+            scanf("%d", &ycoord);
+
+            printf("Enter the number: ");
+            scanf("%d", &num);
+
+            correctAnswer = correctTable[ycoord][xcoord];
+            inp = 1;
+            break;
+        
+        case 2:
+            if (moveNumber == 0)
             {
-                finish = 1;
-                printf("Game Over!");
-                break;
+                printf("Nothing to undo to. \n");
             }
             
-        }
-        print(table);
-        if (checkWin(table) == 1)
-        {
-            printf("Win  Score: %d", score);
+            else{
+                moveNumber = moveNumber - 1;
+                xcoord = move[moveNumber].x;
+                ycoord = move[moveNumber].y;
+
+                table[ycoord][xcoord] = 0;
+            }
             break;
+
+        case 3:
+            printf("x[0]: %d\n",move[0].x);
+            printf("x[1]: %d\n",move[1].x);
+            printf("x[2]: %d\n",move[2].x);
+
+            moveNumber = moveNumber + 1;
+            xcoord = move[moveNumber].x;
+            ycoord = move[moveNumber].y;
+            num = move[moveNumber].num;
+
+
+            
+            
+            break;
+            
+
+        default:
+            printf("Error\n");
+        }
+
+        if(inp == 1)
+        {
+            if (check(table, num, ycoord, xcoord) == 1 && correctAnswer == num)
+            {
+                table[ycoord][xcoord] = num;
+                move[moveNumber].x = xcoord;
+                move[moveNumber].y = ycoord;
+                move[moveNumber].num = num;
+
+                if (checkWin(table) == 1)
+                {
+                    printf("Win  Score: %d \n", score);
+                    printf("History of play: \n");
+
+                    for (int i = 0; i <= moveNumber; i++)
+                    {
+
+                       
+                        printf("%d   (%d,%d) %d \n", i, move[i].x, move[i].y, move[i].num);
+
+
+                    }
+                    printf("[1]Menu [2]Exit\n");
+
+                    scanf("%d", &any);
+                    if (any == 1)
+                    {
+                        system("clear");
+                        Menu();
+                    }
+
+                    else
+                    {
+                        break;
+                    }
+                
+
+
+
+                
+                }
+
+                moveNumber = moveNumber + 1;
+
+
+
+            }
+
+            else{
+                printf("wrong\n");
+                score = score - 1;
+                if (mode == 1)
+                {
+                    finish = 1;
+                    printf("Game Over!");
+                    break;
+                }
+                
+            }
         }
 
     }

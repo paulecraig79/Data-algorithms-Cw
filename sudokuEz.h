@@ -10,12 +10,25 @@
 
 #define Y 4
 
-struct moves
+struct ezMoves
 {
     int y;
     int x;
     int num;
 };
+
+void Menu();
+
+void replay(int table[Y][Y], struct ezMoves move)
+{
+    printEz(table);
+    int test = 0;
+    scanf("%d", &test);
+    if(test == 1)
+    {
+        table[move.y][move.x] = move.num;
+    }
+}
 
 
 void copyTableEz(int graph1[Y][Y], int graph2[Y][Y])
@@ -85,7 +98,7 @@ int checkEz(int graph[Y][Y], int number, int y, int x)
     }
     
 
-    for (int i = 0; i < 3; i++)
+    for (int i = 0; i <= 3; i++)
     {
         if (graph[y][i] == number)
         {
@@ -94,7 +107,7 @@ int checkEz(int graph[Y][Y], int number, int y, int x)
         
     }
 
-    for (int i = 0; i < 3; i++)
+    for (int i = 0; i <= 3; i++)
     {
         if (graph[i][x] == number)
         {
@@ -215,9 +228,14 @@ void sudokuGenEz(int mode){
     int newBoard = 0;
     int targetCoverage = 5;
 
-    int counter;
+    
     int coverage = 0;
     int table[Y][Y] = {{ 0, 0, 0, 0 },
+                       { 0, 0, 0, 0 },
+                       { 0, 0, 0, 0 },
+                       { 0, 0, 0, 0 }};
+
+    int intTable[Y][Y] = {{ 0, 0, 0, 0 },
                        { 0, 0, 0, 0 },
                        { 0, 0, 0, 0 },
                        { 0, 0, 0, 0 }};
@@ -231,7 +249,7 @@ void sudokuGenEz(int mode){
 
     while (newBoard == 0)
     {
-        counter = counter + 1;
+        int counter = rand();
         srand(counter);
         int x = rand() % 5;
         int y = rand() % 5;
@@ -279,19 +297,25 @@ void sudokuGenEz(int mode){
 
 
     }
+
+    copyTableEz(table, intTable);
+
     printEz(table);
     int finish =0;
     int xcoord;
     int ycoord;
+    int any;
     int num;
     int score = 100;
     int flag;
     int inp;
     int correctAnswer;
-    int moveNumber;
-    struct moves move[10];
+    int moveNumber = 0;
+    struct ezMoves move[10];
     while (finish == 0)
     {
+        system("clear");
+        printEz(table);
         xcoord = 0;
         ycoord = 0;
         num = 0;
@@ -299,7 +323,7 @@ void sudokuGenEz(int mode){
         inp = 0;
         
 
-        printf("[1]Enter number into table [2]Undo");
+        printf("[1]Enter number into table [2]Undo [3]Redo \n");
         scanf("%d", &flag);
 
         switch (flag)
@@ -321,15 +345,36 @@ void sudokuGenEz(int mode){
         case 2:
             if (moveNumber == 0)
             {
-                printf("Nothing to undo to.");
+                printf("Nothing to undo to. \n");
             }
             
-            printf("undo");
+            else{
+                moveNumber = moveNumber - 1;
+                xcoord = move[moveNumber].x;
+                ycoord = move[moveNumber].y;
+
+                table[ycoord][xcoord] = 0;
+            }
             break;
 
+        case 3:
+
+            xcoord = move[moveNumber].x;
+            ycoord = move[moveNumber].y;
+            num = move[moveNumber].num;
+
+            table[ycoord][xcoord] = num;
+            moveNumber = moveNumber + 1;
+
+
+
+
+            
+            break;
+            
 
         default:
-            printf("Error");
+            printf("Error\n");
         }
 
 
@@ -352,7 +397,8 @@ void sudokuGenEz(int mode){
                 move[moveNumber].x = xcoord;
                 move[moveNumber].y = ycoord;
                 move[moveNumber].num = num;
-
+                moveNumber = moveNumber + 1;
+    
                 if (checkWinEz(table) == 1)
                 {
                     printf("Win  Score: %d \n", score);
@@ -360,16 +406,46 @@ void sudokuGenEz(int mode){
 
                     for (int i = 0; i <= moveNumber; i++)
                     {
+
+                       
                         printf("%d   (%d,%d) %d \n", i, move[i].x, move[i].y, move[i].num);
+
+
                     }
+                    printf("[1]Menu [2]Replay [3]Exit\n");
+
+                    scanf("%d", &any);
+
+                    switch (any)
+                    {
+                    case 1:
+                        system("clear");
+                        Menu();
+                        break;
+                    case 2:
+                        for (int i = 0; i <= moveNumber; i++)
+                        {
+                            replay(intTable, move[i]);
+                            
+                        }
+                        finish = 1;
+                        break;
+                    
+                        
+                    case 3:
+                        break;
+                    default:
+                        printf("Error\n");
+                    }                    
+
                 
 
 
-                break;
-            }
 
-                moveNumber = moveNumber + 1;
-    
+                
+                }
+
+                
 
             
             }
@@ -387,7 +463,7 @@ void sudokuGenEz(int mode){
                 
             }
         }
-        printEz(table);
+        
 
 
 
